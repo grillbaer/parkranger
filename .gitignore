@@ -1,0 +1,5 @@
+# git ignore file
+.vs
+parkranger/Debug
+parkranger/Release
+
