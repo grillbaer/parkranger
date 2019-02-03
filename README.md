@@ -1,7 +1,7 @@
 # parkranger
 Ultrasonic park distance LED lights
 
-Atmel micro-controller ATmega ATtiny84
+AVR micro-controller ATmega ATtiny84
  - internal oscillator at 8.0 MHz (without fuse CLKDIV8)
  
 Ultrasonic sensor module HC-SR04
