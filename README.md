@@ -18,5 +18,4 @@ C code for Atmel Studio 7.0
  - different LED colors/brightness using PWM signals from timer0 and timer1
  - timer0 overflows are counted using interrupt until echo is received to calculate distance
  - echo signal triggers interrupt PCINT1 to start/stop duration counting
- - switches between standby mode (LED almost off, 500ms between measurements) and parking mode (LED shows distance, 100ms between measurements) by observing distance changes and timeout after 60 seconds
- 
+ - switches between standby mode (LED almost off, 500ms between measurements, after 60 seconds without distance changes) and parking mode (LED shows distance, 100ms between measurements, after distance changes)
