@@ -2,16 +2,20 @@
 Ultrasonic park distance LED lights
 
 AVR micro-controller ATmega ATtiny84
- - internal oscillator at 8.0 MHz (without fuse CLKDIV8)
+ - internal oscillator at 8.0 MHz (disable fuse CLKDIV8!)
  
 Ultrasonic sensor module HC-SR04
  - trigger on PA0 (SOIC pin 13)
  - echo on PA1/PCINT1 (SOIC pin 12)
 
 RGB LED
+ - 20 mA per LED with common anode or 12V LED module without resistor
  - red on PA5 (SOIC pin 8)
  - green on PA6 (SOIC pin 7)
  - blue on PA7 (SOIC pin 6)
+
+PCB and schematics
+ - KiCad and Gerber files for PCB production
 
 C code for Atmel Studio 7.0
  - main loop triggers measurements
