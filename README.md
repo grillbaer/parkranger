@@ -1,5 +1,7 @@
 # parkranger
-Ultrasonic park distance LED lights
+Ultrasonic park distance LED lights for garage or carport.
+
+## Hardware
 
 AVR micro-controller ATmega ATtiny84
  - internal oscillator at 8.0 MHz (disable fuse CLKDIV8!)
@@ -14,8 +16,9 @@ RGB LED
  - green on PA6 (SOIC pin 7)
  - blue on PA7 (SOIC pin 6)
 
-PCB and schematics
- - KiCad and Gerber files for PCB production
+![PCB](electronics-pcb-3d.png)
+
+## Software
 
 C code for Atmel Studio 7.0
  - main loop triggers measurements
@@ -23,3 +26,9 @@ C code for Atmel Studio 7.0
  - timer0 overflows are counted using interrupt until echo is received to calculate distance
  - echo signal triggers interrupt PCINT1 to start/stop duration counting
  - switches between standby mode (LED almost off, 500ms between measurements, after 60 seconds without distance changes) and parking mode (LED shows distance, 100ms between measurements, after distance changes)
+
+## Electronic CAD files
+
+Design files are made with KiCad. Gerber files for PCB production have also been generated.
+ 
+![Schematic](electronics-schematic.png)
