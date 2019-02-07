@@ -11,7 +11,7 @@ Ultrasonic sensor module HC-SR04
  - echo on PA1/PCINT1 (SOIC pin 12)
 
 RGB LED
- - 20 mA per LED with common anode or 12V LED module without resistor
+ - 20 mA LEDs or 12V LED module without resistor, both with common anode
  - red on PA5 (SOIC pin 8)
  - green on PA6 (SOIC pin 7)
  - blue on PA7 (SOIC pin 6)
