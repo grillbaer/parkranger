@@ -16,31 +16,39 @@
 #define SENSOR_ECHO_IN_MASK (1<<PA1)  // high pulse length proportional to distance
 
 // LEDs at output pins PA5, PA6 and PA7:
-#define RED_MASK (1<<PA5)             // low active
-#define GREEN_MASK (1<<PA6)           // low active
-#define BLUE_MASK (1<<PA7)            // low active
+#define RED_MASK (1<<PA5)
+#define GREEN_MASK (1<<PA6)
+#define BLUE_MASK (1<<PA7)
+#define HIGH_IS_ON 1        // 0 for low active, 1 for high active
 
 typedef uint8_t bool;
 
 void setLedsOnOff(bool red, bool green, bool blue)
 {
+	if (HIGH_IS_ON) {
+		red = !red;
+		green = !green;
+		blue = !blue;
+	}
+
 	PORTA = (PORTA & ~(RED_MASK|GREEN_MASK|BLUE_MASK))
-	| (red ? 0 : RED_MASK)
+	| (red   ? 0 : RED_MASK)
 	| (green ? 0 : GREEN_MASK)
-	| (blue ? 0 : BLUE_MASK);
+	| (blue  ? 0 : BLUE_MASK);
 }
 
 void initLedsOnOff() {
 	DDRA  |= RED_MASK | GREEN_MASK | BLUE_MASK;  // 1 = out
-	setLedsOnOff(0, 0, 0);
+	setLedsOnOff(!HIGH_IS_ON, !HIGH_IS_ON, !HIGH_IS_ON);
 }
 
 void setLedsPwm(uint8_t red, uint8_t green, uint8_t blue) {
 
-	DDRA = (DDRA & (~(RED_MASK | GREEN_MASK | BLUE_MASK))) // in = completely off, out = PWM
-	| (red > 0 ? RED_MASK : 0)
-	| (green > 0 ? GREEN_MASK : 0)
-	| (blue > 0 ? BLUE_MASK : 0);
+	if (HIGH_IS_ON) {
+		red = 255 - red;
+		green = 255 - green;
+		blue = 255 - blue;
+	}
 
 	OCR1BH = 0;
 	OCR1BL = red;
@@ -63,8 +71,8 @@ void initClockSource()
 }
 
 void initLedsPwm() {
-	DDRA &= ~(RED_MASK | GREEN_MASK | BLUE_MASK);  // in = completely off initially
-	
+	DDRA |= (RED_MASK | GREEN_MASK | BLUE_MASK);
+
 	TCCR0A = (1<<COM0B1) | (1<<COM0B0)   // inverting mode for 0A
 	| (1<<WGM01) | (1<<WGM00);           // fast PWM mode for timer0
 	TCCR0B = 0;
@@ -95,13 +103,20 @@ void initSensor()
 volatile int16_t lastCm = -1;
 volatile uint16_t shownCount = 0;
 #define MAX_SHOW_COUNT 600  // 60 seconds for 10 measurements per second
+volatile uint8_t blink = 1;
 
 void showDistance(int32_t clockCycles) {
 	// duration is measured in clockCycles of 125ns
 	// => 1 cm distance is about 472 clock cycles (depending on temperature)
 	int16_t cm = clockCycles / 472;
 	
-	if (abs(cm - lastCm) <= 8) {
+	int16_t movementLimit = cm/2;
+	if (movementLimit < 2)
+		movementLimit = 2;
+	if (movementLimit > 8)
+		movementLimit = 10;
+	
+	if (abs(cm - lastCm) <= movementLimit) {
 		// only minor movement/noise
 		if (shownCount < MAX_SHOW_COUNT) {
 			shownCount++;
@@ -116,24 +131,33 @@ void showDistance(int32_t clockCycles) {
 	lastCm = cm;
 	
 	if (cm <= 6) {
-		// red
-		setLedsPwm(255, 80, 180);
-	} else if (cm <= 12) {
-		// red
-		setLedsPwm(255, 0, 0);
-	} else if (cm <= 26) {
-		// yellow
-		setLedsPwm(255, 160, 0);
-	} else if (cm <= 80) {
-		// green
-		setLedsPwm(0, 220, 0);
-	} else if (cm <= 150) {
-		// green-blue
-		setLedsPwm(0, 50, 70);
-	}
-	else {
-		// almost off
-		setLedsPwm(0, 0, 40);
+		// red blinking
+		if (blink) {
+			setLedsPwm(255, 255, 255);
+			blink = 0;
+		} else {
+			setLedsPwm(255, 0, 0);
+			blink = 1;
+		}
+	} else {
+		blink = 1;
+		if (cm <= 12) {
+			// red
+			setLedsPwm(255, 0, 0);
+		} else if (cm <= 26) {
+			// yellow
+			setLedsPwm(255, 100, 0);
+		} else if (cm <= 80) {
+			// green
+			setLedsPwm(0, 220, 0);
+		} else if (cm <= 150) {
+			// green-blue
+			setLedsPwm(0, 60, 60);
+		}
+		else {
+			// almost off
+			setLedsPwm(0, 0, 40);
+		}
 	}
 }
 
@@ -144,7 +168,7 @@ int main(void)
 
 	initLedsPwm();
 	initSensor();
-	
+
 	while (1)
 	{
 		// 10 measurements per second when in showing state, 4 per second otherwise:
