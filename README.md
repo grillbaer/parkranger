@@ -1,7 +1,7 @@
 # parkranger
 Ultrasonic park distance LED lights for garage or carport.
 
-![Demo](media/parkranger-demo.mp4)
+[![https://youtu.be/etx8T3zsTiQ](media/parkranger-demo-thumb.jpg)](https://youtu.be/etx8T3zsTiQ)
 
 ## Hardware
 
