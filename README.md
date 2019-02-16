@@ -3,7 +3,11 @@ Ultrasonic park distance LED lights for garage or carport.
 
 [![https://youtu.be/etx8T3zsTiQ](media/parkranger-demo-thumb.jpg)](https://youtu.be/etx8T3zsTiQ)
 
+Feel free to use this project as a base for your own projects ON YOUR OWN RISK!
+
 ## Hardware
+
+![Board](media/pcb-finished.JPG)
 
 AVR micro-controller ATmega ATtiny84
  - internal oscillator at 8.0 MHz (disable fuse CLKDIV8!)
@@ -11,6 +15,8 @@ AVR micro-controller ATmega ATtiny84
 Ultrasonic sensor module HC-SR04
  - trigger on PA0 (SOIC pin 13)
  - echo on PA1/PCINT1 (SOIC pin 12)
+
+![Sensor](media/sensor.JPG)
 
 RGB LED
  - 20 mA LEDs or 12V LED module without resistor, both with common anode
