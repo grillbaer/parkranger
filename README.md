@@ -1,6 +1,8 @@
 # parkranger
 Ultrasonic park distance LED lights for garage or carport.
 
+![Demo](media/parkranger-demo.mp4)
+
 ## Hardware
 
 AVR micro-controller ATmega ATtiny84
@@ -16,7 +18,7 @@ RGB LED
  - green on PA6 (SOIC pin 7)
  - blue on PA7 (SOIC pin 6)
 
-![PCB](electronics-pcb-3d.png)
+![PCB](media/electronics-pcb-3d.png)
 
 ## Software
 
@@ -31,4 +33,4 @@ C code for Atmel Studio 7.0
 
 Design files are made with KiCad. Gerber files for PCB production have also been generated.
  
-![Schematic](electronics-schematic.png)
+![Schematic](media/electronics-schematic.png)
