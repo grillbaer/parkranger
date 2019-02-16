@@ -19,7 +19,7 @@
 #define RED_MASK (1<<PA5)
 #define GREEN_MASK (1<<PA6)
 #define BLUE_MASK (1<<PA7)
-#define HIGH_IS_ON 1        // 0 for low active, 1 for high active
+#define HIGH_IS_ON 1        // 0 for low active (normal LED), 1 for high active (12V LEDs)
 
 typedef uint8_t bool;
 
@@ -130,7 +130,7 @@ void showDistance(int32_t clockCycles) {
 	}
 	lastCm = cm;
 	
-	if (cm <= 6) {
+	if (cm <= 12) {
 		// red blinking
 		if (blink) {
 			setLedsPwm(255, 255, 255);
@@ -141,16 +141,16 @@ void showDistance(int32_t clockCycles) {
 		}
 	} else {
 		blink = 1;
-		if (cm <= 12) {
+		if (cm <= 22) {
 			// red
 			setLedsPwm(255, 0, 0);
-		} else if (cm <= 26) {
+		} else if (cm <= 36) {
 			// yellow
 			setLedsPwm(255, 100, 0);
-		} else if (cm <= 80) {
+		} else if (cm <= 100) {
 			// green
 			setLedsPwm(0, 220, 0);
-		} else if (cm <= 150) {
+		} else if (cm <= 160) {
 			// green-blue
 			setLedsPwm(0, 60, 60);
 		}
