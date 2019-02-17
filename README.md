@@ -3,7 +3,7 @@ Ultrasonic park distance LED lights for garage or carport.
 
 [![https://youtu.be/etx8T3zsTiQ](media/parkranger-demo-thumb.jpg)](https://youtu.be/etx8T3zsTiQ)
 
-Feel free to use this project as a base for your own projects ON YOUR OWN RISK!
+Feel free to use this project as a base for your own projects AT YOUR OWN RISK!
 
 ## Hardware
 
